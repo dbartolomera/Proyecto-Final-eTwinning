@@ -1,0 +1,1410 @@
+<!DOCTYPE html> <html lang="es"> <head> <meta charset="UTF-8" /> <title>Math Across Borders: eTwinning Project</title> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <style> :root { --bg1: #0b1020; --bg2: #111827; --accent: #38bdf8; --accent-soft: #1e293b; --text-main: #e5e7eb; --text-muted: #9ca3af; --good: #22c55e; --warn: #facc15; --danger: #ef4444; --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.75); --radius-lg: 22px; --radius-pill: 999px; }
+text
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top, #1d283a 0, #020617 50%, #000000 100%);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 6px;
+}
+
+.deck {
+  width: 100%;
+  max-width: 1120px;
+  min-height: 470px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.96));
+  border-radius: 28px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.deck-header {
+  padding: 12px 22px 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 118, 110, 0.2);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a5f3fc;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+}
+
+.badge span.icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: radial-gradient(circle, #22c55e, #16a34a);
+  color: #022c22;
+  font-size: 0.72rem;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.6);
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.meta-pill {
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(75, 85, 99, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-pill span {
+  opacity: 0.9;
+}
+
+.deck-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 0;
+  min-height: 0;
+}
+
+.sidebar {
+  padding: 14px 16px 10px;
+  border-right: 1px solid rgba(148, 163, 184, 0.25);
+  background: radial-gradient(circle at top, rgba(30, 64, 175, 0.4), rgba(15, 23, 42, 0.98));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-title {
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  opacity: 0.9;
+}
+
+.slide-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 2px;
+}
+
+.slide-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.slide-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 999px;
+}
+
+.slide-item {
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 8px 9px 8px 10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(75, 85, 99, 0.7);
+  transition: all 0.16s ease-out;
+  position: relative;
+}
+
+.slide-item::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: all 0.18s ease;
+}
+
+.slide-item:hover {
+  transform: translateY(-1px);
+  border-color: rgba(56, 189, 248, 0.9);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.85);
+}
+
+.slide-item:hover::before {
+  border-color: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.55);
+}
+
+.slide-item.active {
+  background: linear-gradient(135deg, #0f172a, #020617);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5), 0 14px 30px rgba(15, 23, 42, 0.95);
+}
+
+.slide-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  background: radial-gradient(circle at top left, #38bdf8, #1f2937 55%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e0f2fe;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+.slide-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.slide-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.slide-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  opacity: 0.9;
+}
+
+.slide-wrapper {
+  position: relative;
+  padding: 14px 18px 6px 18px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.slide {
+  display: none;
+  height: 100%;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 16px 18px 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide.active {
+  display: block;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 10% 0, rgba(59, 130, 246, 0.2), transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(34, 197, 94, 0.12), transparent 55%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.slide-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.2fr);
+  gap: 16px;
+  height: 100%;
+}
+
+.slide-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.slide-kicker {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #a5f3fc;
+  opacity: 0.9;
+}
+
+.slide-title-main {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.slide-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.slide-body {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #d1d5db;
+}
+
+.slide-body ul {
+  margin-left: 1.1em;
+  margin-top: 6px;
+  display: grid;
+  gap: 4px;
+}
+
+.slide-body li {
+  margin-bottom: 2px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tag {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38bdf8;
+}
+
+.tag-dot.green { background: #22c55e; }
+.tag-dot.yellow { background: #eab308; }
+.tag-dot.pink { background: #ec4899; }
+
+.slide-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 195px;
+}
+
+.card-visual {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 3 / 4;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, #1d4ed8 0, #020617 60%);
+  border: 1px solid rgba(99, 102, 241, 0.8);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+  padding: 14px 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-planet {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, #facc15, #f97316 40%, #0f172a 78%);
+  box-shadow:
+    0 0 0 2px rgba(15, 23, 42, 0.9),
+    0 0 45px rgba(250, 204, 21, 0.7);
+  position: relative;
+}
+
+.card-planet::after {
+  content: "";
+  position: absolute;
+  inset: 18px -12px;
+  border-radius: 999px;
+  border: 2px solid rgba(96, 165, 250, 0.7);
+  transform: rotate(-18deg);
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.6);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.card-chip {
+  font-size: 0.72rem;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  color: #e5e7eb;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-chip-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+}
+
+.card-chip.secondary {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(129, 140, 248, 0.9);
+}
+
+.card-chip.secondary .card-chip-dot {
+  background: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+}
+
+.card-body {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #e5e7eb;
+}
+
+.mini-stats {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.mini-stat {
+  font-size: 0.7rem;
+  padding: 4px 5px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(75, 85, 99, 0.8);
+  text-align: center;
+  color: #cbd5f5;
+}
+
+.mini-stat span {
+  display: block;
+}
+
+.mini-stat strong {
+  font-size: 0.78rem;
+  color: #facc15;
+}
+
+.card-footer {
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #9ca3af;
+}
+
+.card-badges {
+  display: flex;
+  gap: 5px;
+}
+
+.card-badge {
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.deck-footer {
+  padding: 8px 16px 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 6px 14px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  font-size: 0.82rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.16s ease-out;
+}
+
+.btn-primary {
+  background: radial-gradient(circle at top left, #38bdf8, #1d4ed8 60%);
+  border-color: rgba(56, 189, 248, 0.95);
+  color: #0b1120;
+  font-weight: 600;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.8);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 1);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.95);
+  filter: brightness(1.03);
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.slide-counter span {
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.hint {
+  opacity: 0.8;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .deck-main {
+    grid-template-columns: 1.1fr;
+  }
+  .sidebar {
+    display: none;
+  }
+  .slide-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .slide-visual {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .deck {
+    border-radius: 16px;
+  }
+  .deck-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .slide-title-main {
+    font-size: 1.2rem;
+  }
+  .slide-body {
+    font-size: 0.86rem;
+  }
+  .card-visual {
+    max-width: 100%;
+  }
+  .deck-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style> </head> <body> <div class="deck" aria-label="Presentación proyecto eTwinning Maths Across Borders"> <header class="deck-header"> <div> <div class="badge"> <span class="icon">🚀</span> <span>Trabajo Final de Curso · eTwinning · David Bartolomé Ramos</span> </div> </div> <div class="project-meta"> <div class="meta-pill"> <span>📚</span><span>ESO 1.º–4.º · Matemáticas Bilingües (EN)</span> </div> <div class="meta-pill"> <span>🌍</span><span>Proyecto eTwinning · Curso 2025‑2026</span> </div> </div> </header>
+<main class="deck-main">
+  <aside class="sidebar">
+    <div class="sidebar-title">Diapositivas</div>
+    <div class="slide-list">
+      <div class="slide-item active" data-slide="1">
+        <div class="slide-thumb">1</div>
+        <div class="slide-labels">
+          <div class="slide-title">Portada</div>
+          <div class="slide-desc">Título y datos clave</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="2">
+        <div class="slide-thumb">2</div>
+        <div class="slide-labels">
+          <div class="slide-title">Socios europeos</div>
+          <div class="slide-desc">Perfil y países</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="3">
+        <div class="slide-thumb">3</div>
+        <div class="slide-labels">
+          <div class="slide-title">Objetivos</div>
+          <div class="slide-desc">Impacto y competencias</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="4">
+        <div class="slide-thumb">4</div>
+        <div class="slide-labels">
+          <div class="slide-title">Justificación</div>
+          <div class="slide-desc">Currículo y CLIL</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="5">
+        <div class="slide-thumb">5</div>
+        <div class="slide-labels">
+          <div class="slide-title">Actividades</div>
+          <div class="slide-desc">Metodología y ejemplos</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="6">
+        <div class="slide-thumb">6</div>
+        <div class="slide-labels">
+          <div class="slide-title">Herramientas</div>
+          <div class="slide-desc">Plataformas digitales</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="7">
+        <div class="slide-thumb">7</div>
+        <div class="slide-labels">
+          <div class="slide-title">Resultados</div>
+          <div class="slide-desc">Productos finales</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="8">
+        <div class="slide-thumb">8</div>
+        <div class="slide-labels">
+          <div class="slide-title">Evaluación</div>
+          <div class="slide-desc">Instrumentos y KPIs</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="9">
+        <div class="slide-thumb">9</div>
+        <div class="slide-labels">
+          <div class="slide-title">Difusión</div>
+          <div class="slide-desc">Impacto y visibilidad</div>
+        </div>
+      </div>
+
+      <div class="slide-item" data-slide="10">
+        <div class="slide-thumb">10</div>
+        <div class="slide-labels">
+          <div class="slide-title">Sostenibilidad</div>
+          <div class="slide-desc">Legado y continuidad</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="slide-wrapper">
+    <!-- DIAPO 1 -->
+    <article class="slide active" data-slide="1">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 1 · Portada</div>
+          <h1 class="slide-title-main">Math Across Borders: Solving Real-World Problems Together</h1>
+          <p class="slide-subtitle">
+            Matemáticas Bilingües y Ciudadanía Europea en Acción (Aplicando CLIL).
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Autor/a:</strong> David Bartolomé Ramos.</li>
+              <li><strong>Etapa educativa:</strong> Educación Secundaria Obligatoria (1.º a 4.º ESO, 12‑16 años).</li>
+              <li><strong>Materia:</strong> Matemáticas en Sección Bilingüe (Inglés).</li>
+              <li><strong>Idea central:</strong> Proyecto inter‑etapa que contextualiza el currículo matemático mediante la resolución colaborativa de desafíos sociales y económicos europeos.</li>
+              <li><strong>Diseño temporal:</strong> Curso escolar 2025‑2026.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> eTwinning · CLIL/AICLE</span>
+              <span class="tag"><span class="tag-dot green"></span> Real‑world Maths</span>
+              <span class="tag"><span class="tag-dot yellow"></span> ESO 1.º–4.º</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Maths · EN · ICT</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>eTwinning · 2025‑2026</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un planeta‑aula que conecta aulas europeas a través de retos matemáticos sobre datos reales (consumo, clima, movilidad, economía familiar).
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Alumnado</span>
+                  <strong>12‑16</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Países</span>
+                  <strong>5‑7</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Duración</span>
+                  <strong>1 curso</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Ciudadanía europea en clave matemática.</span>
+              <div class="card-badges">
+                <span class="card-badge">🌍 STEAM</span>
+                <span class="card-badge">🧠 Critical Thinking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 2 -->
+    <article class="slide" data-slide="2">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 2 · Socios europeos</div>
+          <h2 class="slide-title-main">Socios Europeos: Perfil y Países Clave</h2>
+          <p class="slide-subtitle">
+            Centros de secundaria que integran Matemáticas, CLIL y metodologías activas en un marco europeo.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Metodologías deseadas:</strong> centros que empleen ABP, gamificación y Flipped Classroom.</li>
+              <li><strong>Enfoque STEAM:</strong> especial interés en la integración de las Matemáticas con ciencia, tecnología y competencias digitales.</li>
+              <li><strong>Público objetivo:</strong> alumnado de 1.º a 4.º ESO, fomentando mentoring entre estudiantes de diferentes edades.</li>
+              <li><strong>Requisito CLIL/AICLE:</strong> uso del inglés como lengua vehicular en materias no lingüísticas, especialmente matemáticas.</li>
+              <li><strong>Países objetivo:</strong>
+                <ul>
+                  <li>Núcleo de bilingüismo: Reino Unido, Irlanda, Finlandia (alta fluidez en inglés).</li>
+                  <li>Variedad socioeconómica: Alemania, Polonia, Italia (diversidad de datos demográficos y de consumo).</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> ABP · Gamificación · Flipped</span>
+              <span class="tag"><span class="tag-dot green"></span> CLIL Maths</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Mentoring 1.º–4.º ESO</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>EN‑rich Countries</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>DE · PL · IT</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Mapa de Europa con nodos conectados (centros) que intercambian datos de consumo, población y hábitos, todos etiquetados en inglés para trabajar Matemáticas en contexto.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Centros</span>
+                  <strong>3‑6</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Grupos</span>
+                  <strong>10‑15</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Equipos</span>
+                  <strong>4‑6 std.</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Una red matemática y lingüística paneuropea.</span>
+              <div class="card-badges">
+                <span class="card-badge">🇬🇧🇮🇪🇫🇮</span>
+                <span class="card-badge">🇩🇪🇵🇱🇮🇹</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 3 -->
+    <article class="slide" data-slide="3">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 3 · Objetivos</div>
+          <h2 class="slide-title-main">Objetivos del Proyecto: Contenido, Idioma y Competencias</h2>
+          <p class="slide-subtitle">
+            Matemáticas aplicadas a situaciones reales, en inglés, para formar alumnado crítico y digitalmente competente.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Aplicación real:</strong> utilizar álgebra, geometría, estadística y probabilidad para modelar situaciones cotidianas (economía del hogar, presupuestos de viaje, huella de carbono, consumo responsable).</li>
+              <li><strong>Fluidez lingüística:</strong> dominar vocabulario técnico matemático y la expresión oral formal en inglés a través del “Math Talk”.</li>
+              <li><strong>Conciencia de diversidad:</strong> comprender cómo las matemáticas, las unidades de medida y los indicadores socioeconómicos varían entre países europeos.</li>
+              <li><strong>Habilidades digitales:</strong> uso eficiente de herramientas colaborativas y plataformas en línea para crear y compartir contenido matemático multimodal.</li>
+            </ul>
+            <p><strong>Competencias clave LOMLOE:</strong></p>
+            <ul>
+              <li>🔢 Competencia matemática y STEM: modelado, razonamiento y resolución de problemas.</li>
+              <li>🗣️ Competencia en comunicación lingüística (inglés): producción oral y escrita en contextos académicos.</li>
+              <li>🤝 Competencia social y cívica: trabajo en equipos multiculturales y gestión de conflictos en entornos virtuales.</li>
+              <li>💻 Competencia digital: creación de contenido multimedia y gestión crítica de la información.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Math · Language</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>STEAM · Digital</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Una balanza que equilibra “Content” (matemáticas) y “Language” (inglés), sostenida sobre un eje de competencias digitales y sociales, mientras datos reales (gráficos, tablas) orbitan alrededor.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Math Skills</span>
+                  <strong>↑</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>EN Skills</span>
+                  <strong>↑</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Digital</span>
+                  <strong>↑</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Objetivos alineados con competencias clave europeas.</span>
+              <div class="card-badges">
+                <span class="card-badge">📊 Data Literacy</span>
+                <span class="card-badge">🧩 Problem Solving</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 4 -->
+    <article class="slide" data-slide="4">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 4 · Justificación</div>
+          <h2 class="slide-title-main">Justificación y Conexión Curricular (CLIL · LOMLOE · Erasmus+)</h2>
+          <p class="slide-subtitle">
+            Una propuesta que integra currículo, internacionalización y competencias en un único proyecto.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Integración curricular en Matemáticas:</strong> resolución de problemas del currículo de ESO: ecuaciones para presupuestos, escalas y proporciones para viajes, estadística y probabilidad para analizar datos de consumo y bienestar.</li>
+              <li><strong>CLIL/AICLE en Inglés:</strong> trabajo del registro formal (informes técnicos) y funcional (presentaciones orales) mediante “Math Talk” en contextos europeos auténticos.</li>
+              <li><strong>Uso de datos abiertos:</strong> introducción accesible al “Big Data” educativo, empleando bases de datos abiertas (p. ej., Eurostat) para analizar tendencias y contrastar realidades.</li>
+              <li><strong>Marco institucional:</strong> 
+                <ul>
+                  <li>Plan de Internacionalización: favorece movilidad virtual, colaboración con centros europeos y construcción de identidad europea.</li>
+                  <li>Erasmus+ (KA220/KA229): la planificación detallada del proyecto sirve de base documental para una futura solicitud de movilidades híbridas.</li>
+                  <li>Enfoque competencial LOMLOE: dota de contexto y relevancia a estándares y competencias, aumentando la motivación del alumnado.</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> LOMLOE · Competencias</span>
+              <span class="tag"><span class="tag-dot green"></span> CLIL Maths</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Erasmus+ Ready</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Currículo ESO</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>Plan Int.</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Tres engranajes entrelazados etiquetados como “Math Curriculum”, “English CLIL” y “European Data”, conectados a una flecha que apunta hacia “Erasmus+ & eTwinning Quality Project”.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Currículo</span>
+                  <strong>100%</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Internac.</span>
+                  <strong>Alta</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Motivación</span>
+                  <strong>↑↑</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Coherencia entre aula, centro y Europa.</span>
+              <div class="card-badges">
+                <span class="card-badge">📑 LOMLOE</span>
+                <span class="card-badge">🇪🇺 Erasmus+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 5 -->
+    <article class="slide" data-slide="5">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 5 · Actividades</div>
+          <h2 class="slide-title-main">Actividades y Metodología: El Motor del Proyecto</h2>
+          <p class="slide-subtitle">
+            ABP, gamificación y aula invertida al servicio de las Matemáticas en inglés.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Metodología de trabajo:</strong> 
+                <ul>
+                  <li>ABP como marco general, con productos finales claros y relevantes.</li>
+                  <li>Gamificación (retos, insignias, niveles) para aumentar implicación.</li>
+                  <li>Flipped Classroom para introducir conceptos técnicos antes de las sesiones colaborativas.</li>
+                  <li>Equipos transnacionales de 4‑6 alumnos para fomentar la interdependencia positiva.</li>
+                </ul>
+              </li>
+              <li><strong>Interacción síncrona:</strong> sesiones periódicas de Resolución de Problemas Síncrona con pizarra digital compartida.</li>
+              <li><strong>Visibilidad anual:</strong> “European Math Fair”, feria virtual donde se presentan públicamente los productos estrella.</li>
+              <li><strong>Actividades estrella:</strong> 
+                <ul>
+                  <li><em>European Math Challenges:</em> retos mensuales con datos reales (coste de la vida en Berlín, huella de carbono del transporte en Roma…).</li>
+                  <li><em>Math Podcast Series:</em> pódcast bilingües en los que alumnado de 4.º ESO explica conceptos a cursos inferiores.</li>
+                  <li><em>Virtual Math Exchange:</em> sesiones en directo para resolver un problema complejo usando pizarras digitales compartidas.</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> ABP · Gamificación</span>
+              <span class="tag"><span class="tag-dot green"></span> European Math Fair</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Podcast · Live Sessions</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Math Challenges</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>Live Exchange</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un escenario virtual de feria con puestos digitales etiquetados por ciudades europeas, donde cada “stand” presenta un reto matemático resuelto por equipos internacionales.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Retos/año</span>
+                  <strong>6‑8</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Podcasts</span>
+                  <strong>4‑6</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Live</span>
+                  <strong>3‑4</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>El alumnado como protagonista y divulgador.</span>
+              <div class="card-badges">
+                <span class="card-badge">🎧 Podcast</span>
+                <span class="card-badge">🧮 Challenges</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 6 -->
+    <article class="slide" data-slide="6">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 6 · Herramientas</div>
+          <h2 class="slide-title-main">Herramientas Digitales: Ecosistema Tecnológico del Proyecto</h2>
+          <p class="slide-subtitle">
+            Plataformas sencillas, seguras y accesibles para trabajo colaborativo real.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Gestión y comunicación:</strong> TwinSpace como corazón seguro del proyecto (foros, blogs de equipo, calendario, almacenamiento y permisos).</li>
+              <li><strong>Evaluación y feedback:</strong> Google Forms para encuestas iniciales y finales, autoevaluaciones y recogida de evidencias.</li>
+              <li><strong>Visualización matemática:</strong> GeoGebra para modelado interactivo (funciones de crecimiento, geometría, estadística).</li>
+              <li><strong>Diseño y gamificación:</strong> Genially / Canva u otra herramienta similar para presentaciones interactivas, escape rooms y diseño del eBook final.</li>
+              <li><strong>Oralidad y speaking:</strong> Flipgrid / Flip para videoforos breves donde el alumnado explica soluciones en inglés.</li>
+              <li><strong>Brainstorming y datos:</strong> Padlet como muro colaborativo para lluvia de ideas y recopilación de datos estadísticos.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> TwinSpace · Forms</span>
+              <span class="tag"><span class="tag-dot green"></span> GeoGebra · Padlet</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Genially · Flip</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Safe Hub</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>Interactive Tools</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un panel de control donde cada herramienta (TwinSpace, Forms, GeoGebra, Padlet…) es un icono conectado por líneas que representan el flujo de trabajo del proyecto.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Plataformas</span>
+                  <strong>6</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Acceso</span>
+                  <strong>Online</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Uso</span>
+                  <strong>Regular</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>La tecnología al servicio del aprendizaje significativo.</span>
+              <div class="card-badges">
+                <span class="card-badge">🧮 GeoGebra</span>
+                <span class="card-badge">🧱 TwinSpace</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 7 -->
+    <article class="slide" data-slide="7">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 7 · Resultados</div>
+          <h2 class="slide-title-main">Resultados y Productos Finales: Evidencias de Competencia</h2>
+          <p class="slide-subtitle">
+            Productos digitales reutilizables que documentan el progreso matemático, lingüístico y digital.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li>📘 <strong>European Math Problem Book:</strong> eBook interactivo con cada problema, el análisis matemático, la solución y el comentario en inglés.</li>
+              <li>🗺️ <strong>Interactive Math Map:</strong> mapa de Europa con pines que enlazan a los informes finales de cada reto.</li>
+              <li>🎥 <strong>Math in Our Cities:</strong> serie documental breve (5 minutos por país) que muestra aplicaciones locales de las matemáticas.</li>
+              <li>📖 <strong>Bilingual Math Glossary:</strong> diccionario visual colaborativo (español‑inglés) de términos técnicos, útil para futuras secciones bilingües.</li>
+              <li>🌐 <strong>Blog del proyecto:</strong> TwinBlog público con entradas de proceso, hitos, reflexiones y evidencias de aprendizaje.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> eBook · Glossary</span>
+              <span class="tag"><span class="tag-dot green"></span> Map · Videos</span>
+              <span class="tag"><span class="tag-dot yellow"></span> TwinBlog</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Math Products</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>ePortfolio</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un “estante digital” con libros, mapas y pantallas que representan el eBook, el mapa interactivo, vídeos y blog, todos etiquetados en inglés y vinculados con códigos QR.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>eBook</span>
+                  <strong>1</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Videos</span>
+                  <strong>≥5</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Entradas blog</span>
+                  <strong>≥10</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Un portafolio europeo de Matemáticas bilingües.</span>
+              <div class="card-badges">
+                <span class="card-badge">📘 eBook</span>
+                <span class="card-badge">🗺️ Map</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 8 -->
+    <article class="slide" data-slide="8">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 8 · Evaluación</div>
+          <h2 class="slide-title-main">Evaluación y Seguimiento: Calidad y Transparencia</h2>
+          <p class="slide-subtitle">
+            Instrumentos claros, criterios compartidos y datos para la mejora continua.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Instrumentos de evaluación:</strong> 
+                <ul>
+                  <li>Rúbricas compartidas (precisión matemática, uso de vocabulario técnico en inglés, claridad de explicación, colaboración).</li>
+                  <li>Learning Journals individuales en inglés sobre el proceso de aprendizaje y la experiencia intercultural.</li>
+                  <li>Reuniones mensuales de coordinación docente para analizar evidencias y ajustar metodología.</li>
+                  <li>Autoevaluaciones trimestrales sobre satisfacción y desarrollo de la competencia social y lingüística.</li>
+                </ul>
+              </li>
+              <li><strong>Indicadores de éxito (KPIs):</strong> 
+                <ul>
+                  <li>📈 Participación activa: al menos el 80% del alumnado implicado en tareas colaborativas síncronas y asíncronas.</li>
+                  <li>📈 Mejora lingüística: incremento aproximado del 25% en el uso adecuado de vocabulario técnico en textos y presentaciones.</li>
+                  <li>📈 Logro curricular: al menos el 90% del alumnado capaz de resolver con éxito los Math Challenges complejos consensuados.</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> Rúbricas</span>
+              <span class="tag"><span class="tag-dot green"></span> Journals</span>
+              <span class="tag"><span class="tag-dot yellow"></span> KPIs</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Rubrics</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>KPIs</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un panel de control con gráficas de barras y líneas que refleja progreso matemático, lingüístico y de participación, junto a iconos de rúbricas y diarios de aprendizaje.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Act. síncronas</span>
+                  <strong>≥80%</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Vocabulario</span>
+                  <strong>+25%</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Retos OK</span>
+                  <strong>≥90%</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Evaluación como palanca de mejora, no solo de calificación.</span>
+              <div class="card-badges">
+                <span class="card-badge">📝 Rubrics</span>
+                <span class="card-badge">📊 Progress</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 9 -->
+    <article class="slide" data-slide="9">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 9 · Difusión</div>
+          <h2 class="slide-title-main">Difusión e Impacto: Estrategia de Visibilidad</h2>
+          <p class="slide-subtitle">
+            Un proyecto visible dentro y fuera del centro, con impacto real en la comunidad educativa.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li><strong>Difusión interna:</strong> exposiciones permanentes en el hall con códigos QR que enlazan al Interactive Math Map y al eBook.</li>
+              <li><strong>Comunidad educativa:</strong> jornadas de “Open Doors Day” para compartir productos con familias y otros grupos.</li>
+              <li><strong>Redes sociales y web:</strong> campañas periódicas en Twitter/Instagram del centro con el hashtag #MathAcrossBorders y publicación en la web institucional.</li>
+              <li><strong>Red eTwinning:</strong> publicación de buenas prácticas y productos finales en el portal nacional eTwinning.</li>
+              <li><strong>Medios y vídeo:</strong> posible contacto con la prensa local y creación de un canal de difusión donde alojar la serie “Math in Our Cities”.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> Web · QR</span>
+              <span class="tag"><span class="tag-dot green"></span> Familias</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Redes · Medios</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Visibility</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>Impact</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un mural escolar con códigos QR, pantallas y fotos de alumnado en acción, conectado a iconos de redes sociales y al logo de eTwinning.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>QR posters</span>
+                  <strong>≥5</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Eventos</span>
+                  <strong>2‑3</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Posts</span>
+                  <strong>mensual</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Compartir para inspirar nuevas colaboraciones.</span>
+              <div class="card-badges">
+                <span class="card-badge">#MathAcrossBorders</span>
+                <span class="card-badge">🌐 eTwinning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- DIAPO 10 -->
+    <article class="slide" data-slide="10">
+      <div class="slide-inner">
+        <div class="slide-text">
+          <div class="slide-kicker">Diapositiva 10 · Sostenibilidad</div>
+          <h2 class="slide-title-main">Sostenibilidad y Continuidad: Legado del Proyecto</h2>
+          <p class="slide-subtitle">
+            De un proyecto anual a un programa estable de Matemáticas bilingües e internacionalización.
+          </p>
+          <div class="slide-body">
+            <ul>
+              <li>♻️ <strong>Banco de recursos:</strong> el European Math Problem Book y el Bilingual Glossary pasan a formar parte de la programación bilingüe estable del departamento.</li>
+              <li>🤝 <strong>Mentoring inter‑etapa:</strong> alumnado de 4.º ESO acompañará a nuevas promociones de 1.º ESO en futuras ediciones.</li>
+              <li>🌐 <strong>Red de centros:</strong> mantenimiento de la red de contactos para explorar futuros intercambios físicos y otros proyectos STEM.</li>
+              <li>🚀 <strong>Escalabilidad Erasmus+:</strong> el diseño robusto del proyecto sirve como piloto para solicitar Acreditación Erasmus+ o proyectos KA2.</li>
+              <li>🎓 <strong>Certificación:</strong> emisión de diplomas europeos de participación que reconozcan las competencias lingüísticas, digitales y matemáticas desarrolladas.</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag"><span class="tag-dot"></span> Banco de Recursos</span>
+              <span class="tag"><span class="tag-dot green"></span> Mentoring</span>
+              <span class="tag"><span class="tag-dot yellow"></span> Erasmus+ Future</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="card-visual">
+            <div class="card-header">
+              <div class="card-planet"></div>
+              <div class="card-labels">
+                <div class="card-chip">
+                  <span class="card-chip-dot"></span>
+                  <span>Legacy</span>
+                </div>
+                <div class="card-chip secondary">
+                  <span class="card-chip-dot"></span>
+                  <span>Next Steps</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <strong>Imagen conceptual:</strong> Un “árbol del proyecto” donde las raíces son eTwinning, el tronco el proyecto actual y las ramas futuras movilidades Erasmus+ y nuevos proyectos STEM bilingües.
+              <div class="mini-stats">
+                <div class="mini-stat">
+                  <span>Ediciones</span>
+                  <strong>n≥3</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Centros red</span>
+                  <strong>≥4</strong>
+                </div>
+                <div class="mini-stat">
+                  <span>Erasmus+</span>
+                  <strong>Objetivo</strong>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span>Un proyecto que deja huella en el centro.</span>
+              <div class="card-badges">
+                <span class="card-badge">♻️ Sustainable</span>
+                <span class="card-badge">🇪🇺 Erasmus+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer class="deck-footer">
+  <div class="nav-buttons">
+    <button class="btn" id="prevBtn" type="button">
+      ⬅ Anterior
+    </button>
+    <button class="btn btn-primary" id="nextBtn" type="button">
+      Siguiente ➡
+    </button>
+  </div>
+  <div class="slide-counter">
+    Diapositiva <span id="currentSlide">1</span> de <span id="totalSlides">10</span>
+  </div>
+  <div class="hint">
+    Consejo: usa las teclas de flecha ◀ ▶ para avanzar o retroceder.
+  </div>
+</footer>
+</div> <script> const slides = Array.from(document.querySelectorAll(".slide")); const slideItems = Array.from(document.querySelectorAll(".slide-item")); const prevBtn = document.getElementById("prevBtn"); const nextBtn = document.getElementById("nextBtn"); const currentSlideSpan = document.getElementById("currentSlide"); const totalSlidesSpan = document.getElementById("totalSlides"); let current = 1; const total = slides.length; totalSlidesSpan.textContent = total.toString(); function showSlide(n) { if (n < 1) n = 1; if (n > total) n = total; current = n; slides.forEach(s => s.classList.remove("active")); slideItems.forEach(i => i.classList.remove("active")); const slide = document.querySelector('.slide[data-slide="' + n + '"]'); const item = document.querySelector('.slide-item[data-slide="' + n + '"]'); if (slide) slide.classList.add("active"); if (item) item.classList.add("active"); currentSlideSpan.textContent = n.toString(); prevBtn.disabled = n === 1; nextBtn.disabled = n === total; } prevBtn.addEventListener("click", () => showSlide(current - 1)); nextBtn.addEventListener("click", () => showSlide(current + 1)); slideItems.forEach(item => { item.addEventListener("click", () => { const n = parseInt(item.getAttribute("data-slide"), 10); showSlide(n); }); }); document.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") { if (current < total) showSlide(current + 1); } else if (e.key === "ArrowLeft") { if (current > 1) showSlide(current - 1); } }); </script> </body> </html>
